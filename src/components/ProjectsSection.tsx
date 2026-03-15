@@ -24,9 +24,9 @@ const ProjectsSection = () => (
         className="glass-card p-8 lg:p-12 max-w-3xl group"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-3 h-3 rounded-full bg-destructive" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500" />
-          <div className="w-3 h-3 rounded-full bg-green-500" />
+          <div className="w-3 h-3 rounded-full bg-destructive opacity-80" />
+          <div className="w-3 h-3 rounded-full bg-secondary opacity-60" />
+          <div className="w-3 h-3 rounded-full bg-primary opacity-60" />
           <span className="font-mono text-xs text-muted-foreground ml-2">project://sign-language-translator</span>
         </div>
 
