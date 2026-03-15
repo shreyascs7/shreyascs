@@ -15,9 +15,12 @@ const Index = () => (
     <ServicesSection />
     <ProjectsSection />
     <ContactSection />
-    <footer className="border-t border-border py-8 text-center">
-      <p className="font-mono text-xs text-muted-foreground">
-        © 2025 Shreyas Mohan — Built with passion and code
+    <footer className="border-t border-border py-10 text-center">
+      <p className="font-mono text-xs text-muted-foreground mb-1">
+        © 2025 Shreyas Mohan
+      </p>
+      <p className="font-mono text-[10px] text-muted-foreground/50">
+        Built with passion and code
       </p>
     </footer>
   </div>
