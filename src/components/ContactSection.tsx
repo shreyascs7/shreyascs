@@ -18,6 +18,30 @@ const socials = [
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [focused, setFocused] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    setSending(true);
+    try {
+      await emailjs.send(
+        "service_4pr55p9",
+        "template_yec0bjt",
+        { from_name: form.name, from_email: form.email, message: form.message },
+        "wUFrzEd1gDMTiUbDR"
+      );
+      toast.success("Message sent successfully!");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-28 relative">
