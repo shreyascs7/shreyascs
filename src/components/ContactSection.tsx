@@ -152,8 +152,8 @@ const ContactSection = () => {
               />
             </div>
 
-            <button type="submit" className="neon-btn-primary w-full justify-center">
-              <Send size={16} strokeWidth={1.5} /> Send Message
+            <button type="submit" disabled={sending} className="neon-btn-primary w-full justify-center disabled:opacity-50">
+              {sending ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <><Send size={16} strokeWidth={1.5} /> Send Message</>}
             </button>
           </motion.form>
         </div>
