@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Terminal, Sparkles } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Terminal, Sparkles, Zap } from "lucide-react";
 import profileImg from "@/assets/profile.png";
 
 const tagline = 'Computer Science Student | Web Developer | Python Programmer | AI Tools Enthusiast';
 
 const stats = [
-  { label: "Projects", value: "10+" },
-  { label: "Technologies", value: "15+" },
-  { label: "Year", value: "2027" },
+  { label: "Projects", value: "10+", icon: "⚡" },
+  { label: "Technologies", value: "15+", icon: "🔧" },
+  { label: "Year", value: "2027", icon: "🎓" },
 ];
 
 const HeroSection = () => {
@@ -26,7 +26,7 @@ const HeroSection = () => {
         clearInterval(interval);
         setTaglineComplete(true);
       }
-    }, 35);
+    }, 30);
     return () => clearInterval(interval);
   }, []);
 
@@ -36,47 +36,64 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated grid background */}
-      <div className="absolute inset-0 grid-bg opacity-60" />
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden scanlines">
+      {/* Dot pattern background */}
+      <div className="absolute inset-0 dot-pattern opacity-40" />
+      
+      {/* Animated gradient mesh */}
+      <div className="absolute inset-0">
+        <motion.div
+          animate={{ x: [0, 50, 0], y: [0, -30, 0], scale: [1, 1.2, 1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full blur-[180px]"
+          style={{ background: 'radial-gradient(circle, hsl(160 95% 55% / 0.08), transparent 70%)' }}
+        />
+        <motion.div
+          animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1.1, 1, 1.1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] rounded-full blur-[180px]"
+          style={{ background: 'radial-gradient(circle, hsl(280 85% 65% / 0.08), transparent 70%)' }}
+        />
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[120px]"
+          style={{ background: 'radial-gradient(circle, hsl(45 100% 60% / 0.04), transparent 70%)' }}
+        />
+      </div>
 
-      {/* Glow orbs */}
+      {/* Floating decorative cards */}
       <motion.div
-        animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/6 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[150px]"
-      />
-      <motion.div
-        animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/4 right-1/6 w-[400px] h-[400px] bg-secondary/8 rounded-full blur-[150px]"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px]"
-      />
-
-      {/* Floating decorative elements */}
-      <motion.div
-        animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+        animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-32 right-[15%] hidden lg:block"
+        className="absolute top-28 right-[12%] hidden lg:block"
       >
-        <div className="glass-card p-3 flex items-center gap-2">
-          <Terminal size={14} className="text-primary" />
-          <span className="font-mono text-[10px] text-muted-foreground">ready_to_build</span>
+        <div className="glass-card p-3 px-4 flex items-center gap-2">
+          <Terminal size={13} className="text-primary" />
+          <span className="font-mono text-[10px] text-muted-foreground">~/ready_to_build</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
         </div>
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, 12, 0], rotate: [0, -3, 0] }}
+        animate={{ y: [0, 12, 0], rotate: [0, -2, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-40 left-[10%] hidden lg:block"
+        className="absolute bottom-36 left-[8%] hidden lg:block"
       >
-        <div className="glass-card p-3 flex items-center gap-2">
-          <Sparkles size={14} className="text-secondary" />
-          <span className="font-mono text-[10px] text-muted-foreground">ai_enthusiast</span>
+        <div className="glass-card p-3 px-4 flex items-center gap-2">
+          <Sparkles size={13} className="text-secondary" />
+          <span className="font-mono text-[10px] text-muted-foreground">ai.enthusiast</span>
+        </div>
+      </motion.div>
+
+      <motion.div
+        animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-[60%] right-[8%] hidden lg:block"
+      >
+        <div className="glass-card p-3 px-4 flex items-center gap-2">
+          <Zap size={13} className="text-accent" />
+          <span className="font-mono text-[10px] text-muted-foreground">vibe.coder</span>
         </div>
       </motion.div>
 
@@ -90,26 +107,27 @@ const HeroSection = () => {
             className="relative flex-shrink-0 group"
           >
             <div className="relative w-52 h-52 lg:w-72 lg:h-72">
-              {/* Outer ring */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-secondary to-primary animate-spin-slow opacity-70" />
-              {/* Inner background */}
+              {/* Animated outer ring */}
+              <div className="absolute inset-0 rounded-full animate-spin-slow" style={{
+                background: 'conic-gradient(from 0deg, hsl(160 95% 55%), hsl(280 85% 65%), hsl(45 100% 60%), hsl(160 95% 55%))'
+              }} />
               <div className="absolute inset-[3px] rounded-full bg-background" />
-              {/* Image */}
               <img
                 src={profileImg}
                 alt="Shreyas Mohan"
                 className="absolute inset-[6px] rounded-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              {/* Hover glow overlay */}
               <div className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
             </div>
-            {/* Status dot */}
-            <div className="absolute -bottom-1 -right-1 flex items-center gap-2">
+            {/* Status */}
+            <div className="absolute -bottom-1 -right-1">
               <div className="w-5 h-5 rounded-full bg-primary animate-pulse-glow" />
             </div>
-            {/* Decorative bracket */}
-            <div className="absolute -top-4 -left-4 font-mono text-primary/30 text-2xl select-none">&lt;</div>
-            <div className="absolute -bottom-4 -right-4 font-mono text-primary/30 text-2xl select-none">/&gt;</div>
+            {/* Decorative brackets */}
+            <motion.div animate={{ opacity: [0.2, 0.5, 0.2] }} transition={{ duration: 3, repeat: Infinity }}
+              className="absolute -top-6 -left-6 font-mono text-primary text-3xl select-none">&lt;</motion.div>
+            <motion.div animate={{ opacity: [0.2, 0.5, 0.2] }} transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+              className="absolute -bottom-6 -right-6 font-mono text-secondary text-3xl select-none">/&gt;</motion.div>
           </motion.div>
 
           {/* Content */}
@@ -119,7 +137,6 @@ const HeroSection = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-center lg:text-left max-w-2xl"
           >
-            {/* Terminal label */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -127,20 +144,20 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2 mb-5 glass-card px-4 py-2"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="mono-label">SYSTEM_INITIALIZED</span>
+              <span className="mono-label text-[10px]">SYSTEM_INITIALIZED</span>
             </motion.div>
 
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-foreground mb-2">
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-foreground mb-2"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               SHREYAS
             </h1>
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter mb-5">
-              <span className="glow-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                MOHAN
-              </span>
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter mb-5"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              <span className="gradient-text">MOHAN</span>
             </h1>
 
             <div className="font-mono text-sm text-primary/80 mb-6 h-12 flex items-start">
-              <span className="text-secondary mr-2 hidden sm:inline">&gt;</span>
+              <span className="text-secondary mr-2 hidden sm:inline">$</span>
               <span>
                 {typed}
                 <span className={`${showCursor ? "opacity-100" : "opacity-0"} text-primary transition-opacity`}>▌</span>
@@ -151,7 +168,6 @@ const HeroSection = () => {
               BTech Computer Science student at the College of Engineering Attingal, passionate about building modern web applications and experimenting with AI-powered tools.
             </p>
 
-            {/* CTA buttons */}
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start mb-10">
               <a href="#projects" className="neon-btn-primary group">
                 <span>View Projects</span>
@@ -160,45 +176,45 @@ const HeroSection = () => {
               <a href="#contact" className="neon-btn-outline">Contact Me</a>
             </div>
 
-            {/* Stats row */}
+            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: taglineComplete ? 1 : 0, y: taglineComplete ? 0 : 20 }}
               transition={{ duration: 0.5 }}
-              className="flex gap-8 justify-center lg:justify-start"
+              className="flex gap-6 justify-center lg:justify-start"
             >
-              {stats.map((stat, i) => (
-                <div key={stat.label} className="text-center lg:text-left">
-                  <div className="font-mono text-2xl font-bold text-foreground">{stat.value}</div>
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{stat.label}</div>
+              {stats.map((stat) => (
+                <div key={stat.label} className="glass-card px-5 py-3 text-center hover:!transform-none">
+                  <div className="font-mono text-xl font-bold text-foreground">{stat.icon} {stat.value}</div>
+                  <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground mt-1">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Social links + scroll indicator */}
+        {/* Bottom bar */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
           className="flex items-center justify-between mt-16"
         >
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             {[
-              { icon: Github, href: "#" },
-              { icon: Linkedin, href: "#" },
-              { icon: Mail, href: "#contact" },
-            ].map(({ icon: Icon, href }, i) => (
+              { icon: Github, href: "#", label: "GH" },
+              { icon: Linkedin, href: "#", label: "LI" },
+              { icon: Mail, href: "#contact", label: "EM" },
+            ].map(({ icon: Icon, href, label }) => (
               <a
-                key={i}
+                key={label}
                 href={href}
-                className="w-10 h-10 rounded-sm border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 hover:shadow-[0_0_15px_-5px_hsl(var(--primary)/0.5)]"
+                className="w-10 h-10 rounded-md border border-border/60 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_-5px_hsl(var(--primary)/0.4)] bg-card/20"
               >
                 <Icon size={16} />
               </a>
             ))}
-            <div className="w-16 h-px bg-border ml-2" />
+            <div className="w-20 h-px bg-gradient-to-r from-border to-transparent ml-2" />
           </div>
 
           <a href="#about" className="mx-auto lg:mx-0 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
