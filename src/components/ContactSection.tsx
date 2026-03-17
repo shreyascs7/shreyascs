@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2 } from "lucide-react";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "shreyas@example.com", href: "mailto:shreyas@example.com" },
