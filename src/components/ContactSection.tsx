@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2 } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -45,7 +45,9 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="py-28 relative">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[150px]" />
+      <div className="absolute inset-0 dot-pattern opacity-15" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-[200px]"
+        style={{ background: 'radial-gradient(circle, hsl(160 95% 55% / 0.05), hsl(280 85% 65% / 0.03), transparent 70%)' }} />
 
       <div className="container relative mx-auto px-6">
         <motion.div
@@ -56,8 +58,9 @@ const ContactSection = () => {
           className="text-center mb-16"
         >
           <p className="mono-label mb-3">// CONTACT</p>
-          <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-foreground mb-4">
-            Let's <span className="glow-text">Connect</span>
+          <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-foreground mb-4"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            Let's <span className="gradient-text-subtle">Connect</span>
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto text-sm">
             Interested in collaborating or have a project in mind? Feel free to reach out.
@@ -83,7 +86,7 @@ const ContactSection = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="glass-card p-5 flex items-center gap-4 group block"
               >
-                <div className="p-3 rounded-sm bg-primary/10 border border-primary/20 group-hover:border-primary/50 transition-colors">
+                <div className="p-3 rounded-md bg-primary/10 border border-primary/20 group-hover:border-primary/50 group-hover:bg-primary/15 transition-all duration-300">
                   <Icon size={18} strokeWidth={1.5} className="text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -99,13 +102,27 @@ const ContactSection = () => {
                 <a
                   key={label}
                   href={href}
-                  className="flex-1 glass-card p-4 flex items-center justify-center gap-2 group"
+                  className="flex-1 glass-card p-4 flex items-center justify-center gap-2.5 group"
                 >
                   <Icon size={18} strokeWidth={1.5} className="text-muted-foreground group-hover:text-primary transition-colors" />
                   <span className="font-mono text-xs text-muted-foreground group-hover:text-primary transition-colors">{label}</span>
                 </a>
               ))}
             </div>
+
+            {/* Availability badge */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="glass-card p-4 flex items-center gap-3 mt-4"
+            >
+              <div className="w-3 h-3 rounded-full bg-primary animate-pulse relative">
+                <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20" />
+              </div>
+              <span className="font-mono text-xs text-muted-foreground">Available for new projects</span>
+            </motion.div>
           </motion.div>
 
           {/* Form — 3 cols */}
@@ -118,7 +135,7 @@ const ContactSection = () => {
             onSubmit={handleSubmit}
           >
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <MessageSquare size={14} className="text-primary" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Send a message</span>
             </div>
 
