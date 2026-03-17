@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2 } from "lucide-react";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "shreyas@example.com", href: "mailto:shreyas@example.com" },
@@ -16,6 +18,30 @@ const socials = [
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [focused, setFocused] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    setSending(true);
+    try {
+      await emailjs.send(
+        "service_4pr55p9",
+        "template_yec0bjt",
+        { from_name: form.name, from_email: form.email, message: form.message },
+        "wUFrzEd1gDMTiUbDR"
+      );
+      toast.success("Message sent successfully!");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-28 relative">
@@ -89,7 +115,7 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3 glass-card p-8 space-y-5"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -126,8 +152,8 @@ const ContactSection = () => {
               />
             </div>
 
-            <button type="submit" className="neon-btn-primary w-full justify-center">
-              <Send size={16} strokeWidth={1.5} /> Send Message
+            <button type="submit" disabled={sending} className="neon-btn-primary w-full justify-center disabled:opacity-50">
+              {sending ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <><Send size={16} strokeWidth={1.5} /> Send Message</>}
             </button>
           </motion.form>
         </div>
