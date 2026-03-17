@@ -5,8 +5,8 @@ import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
 
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "shreyas@example.com", href: "mailto:shreyas@example.com" },
-  { icon: Phone, label: "Phone", value: "+91 XXXXX XXXXX", href: "tel:+91" },
+  { icon: Mail, label: "Email", value: "shreyas54416@gmail.com", href: "mailto:shreyas54416@gmail.com" },
+  { icon: Phone, label: "Phone", value: "+91 7510616947", href: "tel:+917510616947" },
   { icon: MapPin, label: "Location", value: "Kerala, India", href: "#" },
 ];
 
