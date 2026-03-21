@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2, MessageSquare } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight, Loader2, MessageSquare, Handshake } from "lucide-react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -14,6 +14,15 @@ const socials = [
   { icon: Github, label: "GitHub", href: "https://github.com/shreyas54416-del" },
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/shreyas-mohan-4b6244294" },
 ];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -44,22 +53,30 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-28 relative">
+    <section id="contact" className="py-32 relative">
       <div className="absolute inset-0 dot-pattern opacity-15" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-[200px]"
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full blur-[250px]"
         style={{ background: 'radial-gradient(circle, hsl(160 95% 55% / 0.05), hsl(280 85% 65% / 0.03), transparent 70%)' }} />
 
       <div className="container relative mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-20"
         >
-          <p className="mono-label mb-3">// CONTACT</p>
-          <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-foreground mb-4"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            className="inline-flex items-center gap-2 glass-card px-4 py-2 mb-5"
+          >
+            <Handshake size={12} className="text-primary" />
+            <span className="mono-label text-[10px]">CONTACT</span>
+          </motion.div>
+          <h2 className="section-heading mb-5">
             Let's <span className="gradient-text-subtle">Connect</span>
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto text-sm">
@@ -70,24 +87,22 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
           {/* Info — 2 cols */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
             className="lg:col-span-2 space-y-4"
           >
-            {contactInfo.map(({ icon: Icon, label, value, href }, i) => (
+            {contactInfo.map(({ icon: Icon, label, value, href }) => (
               <motion.a
                 key={label}
                 href={href}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
+                variants={item}
+                whileHover={{ scale: 1.02, x: 5 }}
                 className="glass-card p-5 flex items-center gap-4 group block"
               >
-                <div className="p-3 rounded-md bg-primary/10 border border-primary/20 group-hover:border-primary/50 group-hover:bg-primary/15 transition-all duration-300">
-                  <Icon size={18} strokeWidth={1.5} className="text-primary" />
+                <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 group-hover:border-primary/50 group-hover:bg-primary/15 transition-all duration-300">
+                  <Icon size={18} strokeWidth={1.5} className="text-primary group-hover:scale-110 transition-transform" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-0.5">{label}</p>
@@ -97,26 +112,27 @@ const ContactSection = () => {
               </motion.a>
             ))}
 
-            <div className="flex gap-3 pt-2">
+            <motion.div variants={item} className="flex gap-3 pt-2">
               {socials.map(({ icon: Icon, label, href }) => (
-                <a
+                <motion.a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
                   className="flex-1 glass-card p-4 flex items-center justify-center gap-2.5 group"
                 >
                   <Icon size={18} strokeWidth={1.5} className="text-muted-foreground group-hover:text-primary transition-colors" />
                   <span className="font-mono text-xs text-muted-foreground group-hover:text-primary transition-colors">{label}</span>
-                </a>
+                </motion.a>
               ))}
-            </div>
+            </motion.div>
 
             {/* Availability badge */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="glass-card p-4 flex items-center gap-3 mt-4"
+              variants={item}
+              className="glass-card-premium p-5 flex items-center gap-3"
             >
               <div className="w-3 h-3 rounded-full bg-primary animate-pulse relative">
                 <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20" />
@@ -127,14 +143,14 @@ const ContactSection = () => {
 
           {/* Form — 3 cols */}
           <motion.form
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-3 glass-card p-8 space-y-5"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-3 glass-card-premium p-8 space-y-5"
             onSubmit={handleSubmit}
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-3">
               <MessageSquare size={14} className="text-primary" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Send a message</span>
             </div>
@@ -143,8 +159,14 @@ const ContactSection = () => {
               { key: "name", label: "Name", type: "text", placeholder: "Your Name" },
               { key: "email", label: "Email", type: "email", placeholder: "your@email.com" },
             ].map(({ key, label, type, placeholder }) => (
-              <div key={key} className="relative">
-                <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5 block">{label}</label>
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2 block">{label}</label>
                 <input
                   className={`neon-input w-full ${focused === key ? "border-primary" : ""}`}
                   type={type}
@@ -154,11 +176,11 @@ const ContactSection = () => {
                   onFocus={() => setFocused(key)}
                   onBlur={() => setFocused(null)}
                 />
-              </div>
+              </motion.div>
             ))}
 
             <div>
-              <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5 block">Message</label>
+              <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2 block">Message</label>
               <textarea
                 className={`neon-input w-full min-h-[140px] resize-none ${focused === "message" ? "border-primary" : ""}`}
                 placeholder="Tell me about your project..."
@@ -169,9 +191,15 @@ const ContactSection = () => {
               />
             </div>
 
-            <button type="submit" disabled={sending} className="neon-btn-primary w-full justify-center disabled:opacity-50">
+            <motion.button
+              type="submit"
+              disabled={sending}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="neon-btn-primary w-full justify-center disabled:opacity-50"
+            >
               {sending ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <><Send size={16} strokeWidth={1.5} /> Send Message</>}
-            </button>
+            </motion.button>
           </motion.form>
         </div>
       </div>

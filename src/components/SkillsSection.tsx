@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Code, Globe, FileCode, Palette, Bot, Braces } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { Code, Globe, FileCode, Palette, Bot, Braces, TrendingUp } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 
 const skills = [
   { name: "Python", icon: Code, level: 85, accent: "primary" },
@@ -10,94 +11,127 @@ const skills = [
   { name: "JavaScript", icon: Braces, level: 70, accent: "primary" },
 ];
 
-const CircularProgress = ({ level, delay, accent }: { level: number; delay: number; accent: string }) => {
-  const radius = 40;
+const AnimatedCounter = ({ target, inView }: { target: number; inView: boolean }) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 1200;
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [inView, target]);
+  return <span>{count}</span>;
+};
+
+const CircularProgress = ({ level, delay, accent, inView }: { level: number; delay: number; accent: string; inView: boolean }) => {
+  const radius = 42;
   const circumference = 2 * Math.PI * radius;
 
   return (
     <div className="relative w-28 h-28">
-      <svg className="w-full h-full -rotate-90" viewBox="0 0 90 90">
-        {/* Track */}
-        <circle cx="45" cy="45" r={radius} fill="none" strokeWidth="2" className="stroke-muted/20" />
-        {/* Glow track */}
+      <svg className="w-full h-full -rotate-90" viewBox="0 0 96 96">
+        <circle cx="48" cy="48" r={radius} fill="none" strokeWidth="2" className="stroke-muted/15" />
         <motion.circle
-          cx="45" cy="45" r={radius} fill="none" strokeWidth="4"
+          cx="48" cy="48" r={radius} fill="none" strokeWidth="3.5"
           strokeLinecap="round"
           className={`stroke-${accent}`}
-          style={{ filter: `drop-shadow(0 0 8px hsl(var(--${accent}) / 0.5))` }}
+          style={{ filter: `drop-shadow(0 0 10px hsl(var(--${accent}) / 0.5))` }}
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
-          whileInView={{ strokeDashoffset: circumference - (level / 100) * circumference }}
-          viewport={{ once: true }}
-          transition={{ delay, duration: 1.2, ease: "easeOut" }}
+          animate={inView ? { strokeDashoffset: circumference - (level / 100) * circumference } : {}}
+          transition={{ delay, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         />
-        {/* Thin outer ring */}
-        <circle cx="45" cy="45" r="44" fill="none" strokeWidth="0.5" className="stroke-border/30" />
+        <circle cx="48" cy="48" r="46" fill="none" strokeWidth="0.5" className="stroke-border/20" />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-mono text-lg font-bold text-foreground">{level}</span>
+        <span className="font-mono text-xl font-bold text-foreground">
+          <AnimatedCounter target={level} inView={inView} />
+        </span>
         <span className="font-mono text-[8px] text-muted-foreground uppercase tracking-wider">%</span>
       </div>
     </div>
   );
 };
 
-const SkillsSection = () => (
-  <section id="skills" className="py-28 relative overflow-hidden">
-    {/* Background */}
-    <div className="absolute inset-0 grid-bg" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[200px]"
-      style={{ background: 'radial-gradient(circle, hsl(280 85% 65% / 0.05), transparent 70%)' }} />
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+const cardItem = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
 
-    <div className="container relative mx-auto px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
-      >
-        <p className="mono-label mb-3">// SKILLS</p>
-        <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-foreground"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Tech <span className="gradient-text">Arsenal</span>
-        </h2>
-        <p className="text-muted-foreground max-w-md mx-auto text-sm mt-4">
-          Tools and technologies I work with to bring ideas to life.
-        </p>
-      </motion.div>
+const SkillsSection = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(gridRef, { once: true, margin: "-100px" });
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        {skills.map((skill, i) => (
+  return (
+    <section id="skills" className="py-32 relative overflow-hidden">
+      <div className="absolute inset-0 grid-bg" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-[250px]"
+        style={{ background: 'radial-gradient(circle, hsl(280 85% 65% / 0.04), hsl(160 95% 55% / 0.03), transparent 70%)' }} />
+
+      <div className="container relative mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-20"
+        >
           <motion.div
-            key={skill.name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.08, duration: 0.5 }}
-            className="glass-card p-6 flex flex-col items-center text-center group"
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            className="inline-flex items-center gap-2 glass-card px-4 py-2 mb-5"
           >
-            <CircularProgress level={skill.level} delay={i * 0.08 + 0.3} accent={skill.accent} />
-            <div className="mt-5 flex items-center gap-2.5">
-              <div className={`p-2.5 rounded-md bg-${skill.accent}/10 border border-${skill.accent}/20 group-hover:border-${skill.accent}/50 transition-all duration-300`}>
-                <skill.icon size={16} strokeWidth={1.5} className={`text-${skill.accent}`} />
-              </div>
-              <h3 className="font-bold text-foreground text-sm">{skill.name}</h3>
-            </div>
+            <TrendingUp size={12} className="text-primary" />
+            <span className="mono-label text-[10px]">SKILLS</span>
           </motion.div>
-        ))}
-      </div>
+          <h2 className="section-heading">
+            Tech <span className="gradient-text">Arsenal</span>
+          </h2>
+          <p className="text-muted-foreground max-w-md mx-auto text-sm mt-5">
+            Tools and technologies I work with to bring ideas to life.
+          </p>
+        </motion.div>
 
-      {/* Bottom decoration */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="section-divider mt-20 max-w-2xl mx-auto"
-      />
-    </div>
-  </section>
-);
+        <motion.div
+          ref={gridRef}
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto"
+        >
+          {skills.map((skill, i) => (
+            <motion.div
+              key={skill.name}
+              variants={cardItem}
+              whileHover={{ scale: 1.04, y: -5 }}
+              className="glass-card-premium p-7 flex flex-col items-center text-center group cursor-default"
+            >
+              <CircularProgress level={skill.level} delay={i * 0.1 + 0.2} accent={skill.accent} inView={isInView} />
+              <div className="mt-5 flex items-center gap-2.5">
+                <div className={`p-2.5 rounded-lg bg-${skill.accent}/10 border border-${skill.accent}/20 group-hover:border-${skill.accent}/50 group-hover:bg-${skill.accent}/15 transition-all duration-300`}>
+                  <skill.icon size={16} strokeWidth={1.5} className={`text-${skill.accent} group-hover:scale-110 transition-transform`} />
+                </div>
+                <h3 className="font-bold text-foreground text-sm">{skill.name}</h3>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 export default SkillsSection;
