@@ -202,8 +202,8 @@ const HeroSection = () => {
         >
           <div className="hidden lg:flex items-center gap-3">
             {[
-              { icon: Github, href: "#", label: "GH" },
-              { icon: Linkedin, href: "#", label: "LI" },
+              { icon: Github, href: "https://github.com/shreyas54416-del", label: "GH" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/shreyas-mohan-4b6244294", label: "LI" },
               { icon: Mail, href: "#contact", label: "EM" },
             ].map(({ icon: Icon, href, label }) => (
               <a
