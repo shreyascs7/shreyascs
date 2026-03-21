@@ -11,8 +11,8 @@ const contactInfo = [
 ];
 
 const socials = [
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
+  { icon: Github, label: "GitHub", href: "https://github.com/shreyas54416-del" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/shreyas-mohan-4b6244294" },
 ];
 
 const ContactSection = () => {
