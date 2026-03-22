@@ -9,7 +9,7 @@ import ContactSection from "@/components/ContactSection";
 import { Github, Linkedin, Mail, Heart, ArrowUp } from "lucide-react";
 
 const footerLinks = [
-  { icon: Github, href: "https://github.com/shreyas54416-del", label: "GitHub" },
+  { icon: Github, href: "https://github.com/shreyascs7", label: "GitHub" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/shreyas-mohan-4b6244294", label: "LinkedIn" },
   { icon: Mail, href: "mailto:shreyas54416@gmail.com", label: "Email" },
 ];
